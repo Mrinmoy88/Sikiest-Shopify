@@ -1,0 +1,130 @@
+<!-- banner section -->
+<section class="inner-banner-section">
+  <div class="item" style="background: url({{ 'banner-bg.png' | asset_url }}) no-repeat center center/cover;">
+    <div class="container">
+      <div class="inner-banner-content">
+        <h1>Our Products</h1>
+      </div>
+    </div>
+  </div>
+</section>
+
+<main>
+
+  <!-- Product List Section -->
+  <section class="common-section">
+    <div class="container">
+      <div class="pl-head">
+        <h3>Our Products</h3>
+      </div>
+      <div class="row">
+        {% paginate collections.all.products by 4 %}
+          {% for product in collections.all.products %}
+            <div class="col-lg-3 col-md-6 col-sm-12">
+              <a href="{{ product.url }}?view=custom" class="product-card">
+                {% comment %} <div class="product-badge">
+                                                                                <span>20% off</span>
+                                                                      </div> {% endcomment %}
+                <div class="product-img">
+                  <img src="{{ product.featured_image | img_url: 'master' }}" alt="">
+                </div>
+                <div class="product-text">
+                  <div class="review-text-box">
+                    <div class="review-star">
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star-half-stroke"></i>
+                      <i class="fa-regular fa-star"></i>
+                    </div>
+                  </div>
+                  <h4>{{ product.title }}</h4>
+                  <div class="product-list-price">
+                    <span class="sell-price">{{ product.price | money }}</span>
+                    {% if product.compare_at_price != '' %}
+                      <del class="fixed-price">{{ product.compare_at_price | money }}</del>
+                    {% endif %}
+                  </div>
+                </div>
+              </a>
+            </div>
+          {% endfor %}
+          {% if paginate.pages > 1 %}
+            <nav class="pagination" style="margin: 0 0 0 1130px;">
+              {% if paginate.previous %}
+                <a href="{{ paginate.previous.url }}" class="product-card">Previous</a>
+              {% endif %}
+
+              &nbsp;
+              <span class="current">Page {{ paginate.current_page }} of {{ paginate.pages }}</span>
+              &nbsp;
+
+              {% if paginate.next %}
+                <a href="{{ paginate.next.url }}" class="product-card">Next</a>
+              {% endif %}
+            </nav>
+          {% endif %}
+        {% endpaginate %}
+      </div>
+    </div>
+  </section>
+</main>
+
+{% schema %}
+  {
+    "name": "About Setting",
+    "blocks": [
+      {
+        "type": "text",
+        "name": "How It Works",
+        "settings": [
+          {
+            "type": "inline_richtext",
+            "id": "text_heading",
+            "default": "Heading",
+            "label": "Heading"
+          },
+          {
+            "type": "richtext",
+            "id": "subtext",
+            "default": "<p>Subtext Details</p>",
+            "label": "Subtext"
+          },
+          {
+            "type": "textarea",
+            "id": "icon_class",
+            "default": "Icon Class",
+            "label": "Icon Class"
+          }
+        ]
+      }
+    ],
+    "settings": [
+      {
+        "type": "image_picker",
+        "label": "Banner Image",
+        "id": "about_banner"
+      },
+      {
+        "type": "image_picker",
+        "label": "Left Image",
+        "id": "about_left_img"
+      },
+      {
+        "type": "textarea",
+        "label": "Right Text",
+        "id": "right_text"
+      },
+      {
+        "type": "image_picker",
+        "label": "Right Image",
+        "id": "about_right_img"
+      },
+      {
+        "type": "textarea",
+        "label": "Left Text",
+        "id": "left_text"
+      }
+    ]
+  }
+{% endschema %}

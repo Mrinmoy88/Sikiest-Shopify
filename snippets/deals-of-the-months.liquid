@@ -1,0 +1,47 @@
+<!-- Deal Of the Month -->
+<section class="common-section dom-section">
+  <div class="container" style="background-image: url({{ 'dom-bg.png' | asset_url }});">
+    <div class="row">
+      <div class="col-lg-8 col-md-12 col-sm-12">
+        <div class="row">
+          <div class="col-lg-6 col-md-12 col-sm-12">
+            <div class="dom-img">
+              <img src="{{ settings.deals_banner | img_url: 'master' }}" alt="">
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-12 col-sm-12">
+            <div class="dom-text">
+              {{ settings.deals_heading }}
+              <p>{{ settings.deals_subtext }}</p>
+              <a href="{{ settings.deals_link }}" class="btn common-btn">SHOP NOW</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-12 col-sm-12">
+        <div class="ad-dom-slider owl-carousel">
+            {% for product in collections.all.products %}                     
+              {% if product.metafields.custom.deals_of_the_month == true %}
+                <div class="item">
+                  <a href="{{ product.url }}?view=custom" class="ad-dom-card">
+                    <div class="ad-dom-card-img">
+                      <img src="{{ product.featured_image | img_url: 'master' }}" alt="">
+                    </div>
+                    <div class="ad-dom-card-text">
+                      <h3>{{ product.title }}</h3>
+                      <div class="product-list-price">
+                        <span class="sell-price">{{ product.price | money }}</span>
+                        {% if product.compare_at_price != '' %}
+                          <del class="fixed-price">{{ product.compare_at_price | money }}</del>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              {% endif %}
+            {% endfor %}
+        </div>        
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,84 @@
+<!-- banner section -->
+<section class="inner-banner-section">
+  <div class="item" style="background: url({{ 'banner-bg.png' | asset_url }}) no-repeat center center/cover;">
+    <div class="container">
+      <div class="inner-banner-content">
+        <h1>FAQ's</h1>
+      </div>
+    </div>
+  </div>
+</section>
+
+<main>
+  <!-- FAQ Section -->
+  <section class="common-section faq-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 m-auto">
+          <div class="faq-heading common-content">
+            <h3>{{ settings.faq_heading }}</h3>
+          </div>
+          <div class="accordion faq-accordion-box" id="accordionExample">
+            {% assign counter = 0 %}
+            {% for block in section.blocks %}
+              {% assign counter = counter | plus: 1 %}
+              <div class="accordion-item">
+                <h2 class="accordion-header">
+                  <button
+                    class="accordion-button {% if counter != 1 %} collapsed {% endif %}"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapse{{counter}}"
+                    aria-expanded="true"
+                    aria-controls="collapse{{counter}}">
+                    {{ block.settings.qns }}
+                  </button>
+                </h2>
+                <div
+                  id="collapse{{counter}}"
+                  class="accordion-collapse collapse {% if counter == 1 %} show {% endif %}"
+                  data-bs-parent="#accordionExample">
+                  <div class="accordion-body">
+                    {{ block.settings.ans }}
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+{% schema %}
+  {
+    "name": "FAQ Setting",
+    "blocks": [
+      {
+        "type": "text",
+        "name": "FAQ",
+        "settings": [
+          {
+            "type": "textarea",
+            "id": "qns",
+            "default": "Question?",
+            "label": "Add Question"
+          }, {
+            "type": "textarea",
+            "id": "ans",
+            "default": "Answer?",
+            "label": "What is your answer?"
+          }
+        ]
+      }
+    ],
+    "settings": [
+      {
+        "type": "textarea",
+        "label": "Main Heading",
+        "id": "faq_heading"
+      }
+    ]
+  }
+{% endschema %}

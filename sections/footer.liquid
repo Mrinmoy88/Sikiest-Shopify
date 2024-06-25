@@ -1,0 +1,290 @@
+<!-- footer Section -->
+<footer class="footer-section">
+  <div class="container">
+    <div class="footer-top">
+      <div class="row">
+        <div class="col-lg-3 col-md-6 col-sm-12 col-12">
+          <div class="footer-box">
+            <div class="footer-box-head">
+              <h5>Contact Us</h5>
+            </div>
+            <ul class="footer-list">
+              <li>
+                <a href="#">
+                  {{ section.settings.add }}
+                </a>
+              </li>
+              <li>
+                <a href="#">
+                  <i class="fa-solid fa-phone-volume"></i>
+                  {{ section.settings.phone }}
+                </a>
+              </li>
+              <li>
+                <a href="#" id="email">
+                  <i class="fa-regular fa-envelope"></i>
+                  {{ section.settings.email }}
+                </a>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-12 col-12">
+          <div class="footer-box">
+            <div class="footer-box-head">
+              <h5>Account</h5>
+            </div>
+            <ul class="footer-list">
+              {% for link in linklists['footer'].links %}
+                <li>
+                  <a href="{{ link.url }}">{{ link.title }}</a>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-12 col-12">
+          <div class="footer-box">
+            <div class="footer-box-head">
+              <h5>Quick Links</h5>
+            </div>
+            <ul class="footer-list">
+              {% for link in linklists['quick-links'].links %}
+                <li>
+                  <a href="{{ link.url }}">{{ link.title }}</a>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-12 col-12">
+          <div class="footer-box">
+            <div class="footer-box-head">
+              <h5>Get Weekly Update</h5>
+            </div>
+            {% comment %} <form class="email-input">
+                                                      <input type="email" class="form-input" placeholder="Email">
+                                                      <button class="btn email-img">
+                                                          <img src="{{ 'email-icon.png' | asset_url }}">
+                                                      </button>
+                                              </form> {% endcomment %}
+            {% form 'customer'
+              , class: 'newsletter-form email-input' %}
+              <input
+                type="hidden"
+                name="contact[tags]"
+                value="newsletter">
+              <input
+                class="form-input"
+                type="text"
+                value="{{ form.email }}"
+                name="contact[email]"
+                placeholder="Your email address"
+                required>
+              {% comment %} <input class="btn email-img" type="submit" name="commit" value="Subscribe"> {% endcomment %}
+
+              <button class="btn email-img" name="commit">
+                <img src="{{ 'email-icon.png' | asset_url }}">
+              </button>
+
+              {%- if form.errors -%}
+                <small class="newsletter-form__message form__message" id="Newsletter-error--{{ section.id }}">
+                  {%- render 'icon-error' -%}
+                  {{- form.errors.translated_fields.email | capitalize }}
+                  {{ form.errors.messages.email -}}
+                </small>
+              {%- endif -%}
+
+              {%- if form.posted_successfully? -%}
+                <h3
+                  class="newsletter-form__message newsletter-form__message--success form__message"
+                  id="Newsletter-success--{{ section.id }}"
+                  tabindex="-1"
+                  autofocus>
+                  {% render 'icon-success' -%}
+                  {{- 'newsletter.success' | t }}
+                </h3>
+              {%- endif -%}
+            {% endform %}
+
+
+            <ul class="footer-follow">
+              <li>
+                <a href="{{ section.settings.fb }}">
+                  <i class="fa-brands fa-facebook-f"></i>
+                </a>
+              </li>
+              <li>
+                <a href="{{ section.settings.in }}">
+                  <i class="fa-brands fa-instagram"></i>
+                </a>
+              </li>
+              <li>
+                <a href="{{ section.settings.tw }}">
+                  <i class="fa-brands fa-twitter"></i>
+                </a>
+              </li>
+              <li>
+                <a href="{{ section.settings.lnd }}">
+                  <i class="fa-brands fa-linkedin-in"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-copyright">
+      <p>{{ section.settings.copy }}</p>
+    </div>
+  </div>
+</footer>
+
+<script src="{{ 'jquery.3.6.4.min.js' | asset_url }}"></script>
+<script src="{{ 'bootstrap.5.2.3.min.js' | asset_url }}"></script>
+<script src="{{ 'owl.carousel.2.3.4.min.js' | asset_url }}"></script>
+<script src="{{ 'modernizr.js' | asset_url }}"></script>
+<script src="{{ 'main.js' | asset_url }}"></script>
+
+<script>
+    $(document).ready(function() {
+      $('#add-cart').click(function() {
+        //alert('ok');
+        $('#add_button').click();
+      });
+
+      for (var i = 1; i <= 3; i++) {
+        (function(index) {
+            $('#add_icon_' + index).click(function() {
+            //alert('ok');
+            $('#add_button_' + index).click();
+            });
+            $('#add_icon1_' + index).click(function() {
+            //alert('ok');
+            $('#add_button_' + index).click();
+            });
+        })(i);
+      }
+   });
+</script>
+
+<script>
+    var phoneInput = document.getElementById("phone");
+    var errorSpan = document.querySelector(".error");
+
+    phoneInput.addEventListener("input", function() {
+      if (phoneInput.validity.patternMismatch) {
+        errorSpan.style.display = "inline";
+      } else {
+        errorSpan.style.display = "none";
+      }
+    });
+
+    var emailInput = document.getElementById("email");
+    var errorSpan1 = document.querySelector(".error1");
+
+    emailInput.addEventListener("input", function() {
+      if (emailInput.validity.typeMismatch) {
+        errorSpan1.style.display = "inline";
+      } else {
+        errorSpan1.style.display = "none";
+      }
+    });
+
+    var namenput = document.getElementById("name");
+    var errorSpan2 = document.querySelector(".error2");
+
+    namenput.addEventListener("input", function() {
+      if (namenput.validity.patternMismatch) {
+        errorSpan2.style.display = "inline";
+      } else {
+        errorSpan2.style.display = "none";
+      }
+    });
+</script>
+
+<script>
+  $(document).ready(function() {
+    // Attach change event to the variant select
+    $('#variant-select').on('change', function() {
+      //alert('ok');
+      // Get the selected variant
+      var selectedVariant = $(this).find(':selected');
+      
+      // Update the inventory quantity in the span
+      $('#pcs').text(selectedVariant.data('inventory'));
+      $('#price').text(selectedVariant.data('price'));
+    });
+  });
+</script>
+
+<button id="buy-now-btn">Buy Now</button>
+
+<script>
+  document.getElementById('buy-now-btn').addEventListener('click', function(e) {
+    e.preventDefault();
+
+    // Get the selected variant ID
+    var selectedVariantId = document.getElementById('p-id').value;
+
+    // Get the selected variant ID
+    var quantity = document.getElementById('quantity').value;
+
+    console.log(selectedVariantId);
+    console.log(',');
+    console.log(quantity);
+
+    // Use AJAX to add the selected variant to the cart
+    jQuery.post('/cart/add.js', { quantity: quantity, id: selectedVariantId }, function() {
+      // Redirect to the checkout page
+      window.location.href = '/checkout';
+  });
+</script>
+
+
+</body>
+</html>
+
+{% schema %}
+{
+  "name": "Footer Setting",
+  "settings": [
+    {
+      "type": "text",
+      "label": "FB",
+      "id": "fb"
+    },
+    {
+      "type": "text",
+      "label": "Insta",
+      "id": "in"
+    },
+    {
+      "type": "text",
+      "label": "Twitter",
+      "id": "tw"
+    },
+    {
+      "type": "text",
+      "label": "Linkdin",
+      "id": "lnd"
+    }, {
+      "type": "text",
+      "label": "copyright",
+      "id": "copy"
+    }, {
+      "type": "text",
+      "label": "Address",
+      "id": "add"
+    }, {
+      "type": "text",
+      "label": "Phone",
+      "id": "phone"
+    }, {
+      "type": "text",
+      "label": "Email",
+      "id": "email"
+    }
+  ]
+}{% endschema %}

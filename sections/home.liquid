@@ -1,0 +1,435 @@
+{% include 'banners' %}
+{% comment %} <main> {% endcomment %}
+<!-- Category List -->
+<section class="cat-section">
+  <div class="container-fluid">
+    <div class="row">
+      {% for collection in collections limit: 3 %}
+        <div class="col-lg-3 col-md-6 col-sm-12">
+          <a
+            href="{{ collection.url }}"
+            class="cat-container"
+            style="background-image: url({{ collection.featured_image | img_url: 'master' }});">
+            <button class="btn cat-btn">{{ collection.title }}</button>
+          </a>
+        </div>
+      {% endfor %}
+      <div class="col-lg-3 col-md-6 col-sm-12">
+        <a
+          href="{{ site.url }}/collections"
+          class="cat-container"
+          style="background-image: url({{ 'cat-img4.png' | asset_url }});">
+          <button class="btn cat-btn">VIEW ALL CATEGORY</button>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- New Arrival -->
+<section class="common-section na-section">
+  <div class="container">
+    <div class="na-head">
+      <h3>New Arrivals</h3>
+      <span>Just in now</span>
+    </div>
+    <div class="row">
+      <div class="col-lg-3 col-md-12 col-sm-12">
+        {% assign sorted_products = collections.all.products | sort: 'created_at' | reverse %}
+        {% for i in (0..1) %}
+          {% assign product = sorted_products[i] %}
+          <a href="{{ product.url }}?view=custom" class="ne-product-card">
+            <div class="ne-product-img">
+              <img src="{{ product.featured_image | img_url: 'master' }}" alt="">
+            </div>
+            <div class="ne-product-text">
+              <div class="review-text-box">
+                <div class="review-star">
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star-half-stroke"></i>
+                  <i class="fa-regular fa-star"></i>
+                </div>
+              </div>
+              <h4>{{ product.title }}</h4>
+              <div class="ne-product-list-price">
+                <span class="sell-price">
+                  {{ product.price | money }}</span>
+                {% comment %} <del class="fixed-price">$30.25</del> {% endcomment %}
+                {% if product.compare_at_price != '' %}
+                  <del class="fixed-price">{{ product.compare_at_price | money }}</del>
+                {% endif %}
+              </div>
+            </div>
+          </a>
+        {% endfor %}
+      </div>
+
+      <div class="col-lg-6 col-md-12 col-sm-12">
+        {% for i in (2..2) %}
+          {% assign product = sorted_products[i] %}
+          <div class="ne-product-card">
+            <div class="ne-product-imgbig">
+              <img src="{{ product.featured_image | img_url: 'master' }}" alt="">
+            </div>
+            <div class="ne-product-text">
+              <div class="review-text-box">
+                <div class="review-star">
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star-half-stroke"></i>
+                  <i class="fa-regular fa-star"></i>
+                </div>
+              </div>
+              <h4>{{ product.title }}</h4>
+              <div class="ne-product-list-price">
+                <span class="sell-price">{{ product.price | money }}</span>
+                {% if product.compare_at_price != '' %}
+                  <del class="fixed-price">{{ product.compare_at_price | money }}</del>
+                {% endif %}
+              </div>
+            </div>
+            <ul class="hcv-list">
+              <li>
+                <a
+                  href="javascript:void(0)"
+                  class="add-cart"
+                  id="add-cart">
+                  <i class="fa-solid fa-cart-arrow-down"></i>
+                </a>
+                <form
+                  action="/cart/add"
+                  method="post"
+                  enctype="multipart/form-data">
+                  <input
+                    type="hidden"
+                    name="id"
+                    value="{{ product.variants.first.id }}">
+                  <input
+                    type="submit"
+                    id="add_button"
+                    value="Add to Cart"
+                    style="display:none;">
+                </form>
+              </li>
+              <li>
+                <a href="javascript:void(0)" class="add-cart">
+                  <i class="fa-regular fa-heart"></i>
+                </a>
+              </li>
+              <li>
+                <a href="{{ product.url }}?view=custom" class="add-cart">
+                  <i class="fa-solid fa-arrow-right-arrow-left"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+        {% endfor %}
+        <div class="ne-product-btn">
+          <a href="{{ site.url }}/collections" class="btn common-btn">SHOP NOW</a>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-12 col-sm-12">
+        {% for i in (3..4) %}
+          {% assign product = sorted_products[i] %}
+          <a href="{{ product.url }}?view=custom" class="ne-product-card">
+            <div class="ne-product-img">
+              <img src="{{ product.featured_image | img_url: 'master' }}" alt="">
+            </div>
+            <div class="ne-product-text">
+              <div class="review-text-box">
+                <div class="review-star">
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star-half-stroke"></i>
+                  <i class="fa-regular fa-star"></i>
+                </div>
+              </div>
+              <h4>{{ product.title }}</h4>
+              <div class="ne-product-list-price">
+                <span class="sell-price">{{ product.price | money }}</span>
+                {% if product.compare_at_price != '' %}
+                  <del class="fixed-price">{{ product.compare_at_price | money }}</del>
+                {% endif %}
+              </div>
+            </div>
+          </a>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% include 'deals-of-the-months' %}
+
+<!-- Trending Now -->
+<section class="common-section">
+  <div class="container">
+    <div class="tn-head">
+      <h3>Trending Now</h3>
+    </div>
+    <div class="common-tlist-slider owl-carousel">
+      {% for product in collections.all.products %}
+        {% if product.metafields.custom.trending == true %}
+          <div class="item">
+            <a href="{{ product.url }}?view=custom" class="product-card">
+              <div class="product-badge">
+                <span>20% off</span>
+              </div>
+              <div class="product-img">
+                <img src="{{ product.featured_image | img_url: 'master' }}" alt="">
+              </div>
+              <div class="product-text">
+                <div class="review-text-box">
+                  <div class="review-star">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star-half-stroke"></i>
+                    <i class="fa-regular fa-star"></i>
+                  </div>
+                </div>
+                <h4>{{ product.title }}</h4>
+                <div class="product-list-price">
+                  {% assign discounted_price = product.price | times: 0.8 %}
+                  <span class="sell-price">{{ discounted_price | money }}</span>
+                  <del class="fixed-price">{{ product.price | money }}</del>
+                </div>
+              </div>
+            </a>
+          </div>
+        {% endif %}
+      {% endfor %}
+
+    </div>
+  </div>
+</section>
+
+<!-- Daily Deal -->
+<section class="common-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6 col-md-12 col-sm-12">
+        <a href="{{ settings.dd1_link }}" class="yfs-img">
+          <img src="{{ settings.dd1_banner | img_url: 'master' }}" alt="">
+        </a>
+      </div>
+      <div class="col-lg-6 col-md-12 col-sm-12">
+        <a href="{{ settings.dd2_link }}" class="yfs-img">
+          <img src="{{ settings.dd2_banner | img_url: 'master' }}" alt="">
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Outdoor Shop -->
+<section class="common-section">
+  <div class="container">
+    <div class="tn-head">
+      <h3>Outdoor Shop</h3>
+    </div>
+    <div class="common-tlist-slider owl-carousel">
+
+      {% for product in collections.all.products %}
+        {% if product.metafields.custom.outdoor == true %}
+          <div class="item">
+            <a href="{{ product.url }}?view=custom" class="product-card">
+              <div class="product-badge">
+                <span>20% off</span>
+              </div>
+              <div class="product-img">
+                <img src="{{ product.featured_image | img_url: 'master' }}" alt="">
+              </div>
+              <div class="product-text">
+                <div class="review-text-box">
+                  <div class="review-star">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star-half-stroke"></i>
+                    <i class="fa-regular fa-star"></i>
+                  </div>
+                </div>
+                <h4>{{ product.title }}</h4>
+                <div class="product-list-price">
+                  {% assign discounted_price = product.price | times: 0.8 %}
+                  <span class="sell-price">{{ discounted_price | money }}</span>
+                  <del class="fixed-price">{{ product.price | money }}</del>
+                </div>
+              </div>
+            </a>
+          </div>
+        {% endif %}
+      {% endfor %}
+
+    </div>
+  </div>
+</section>
+
+{% assign target_collection = collections['your-collection-handle'] %}
+<!-- Accessories Section -->
+<section class="common-section">
+  {% assign target_collection = collections['accessories'] %}
+  <div class="container">
+    <div class="ass-head">
+      <h3>{{ target_collection.title }}</h3>
+    </div>
+    <div class="row">
+      {% assign counter = 0 %}
+      {% for product in target_collection.products limit: 3 %}
+        {% assign counter = counter | plus: 1 %}
+        <div class="col-lg-4 col-md-12 col-sm-12">
+          <div class="ass-card">
+            <div class="ass-content">
+              <h3>{{ product.title }}</h3>
+              <div class="ne-product-list-price">
+                <span class="sell-price">{{ product.price | money }}</span>
+                {% if product.compare_at_price != '' %}
+                  <del class="fixed-price">{{ product.compare_at_price | money }}</del>
+                {% endif %}
+              </div>
+              <form
+                action="/cart/add"
+                method="post"
+                enctype="multipart/form-data">
+                <input
+                  type="hidden"
+                  name="id"
+                  value="{{ product.variants.first.id }}">
+                <input
+                  type="submit"
+                  class="btn common-btn"
+                  id="add_button_{{ counter }}"
+                  value="Add to Cart"
+                  style="display:none;">
+              </form>
+              <a
+                href="javascript:void(0)"
+                id="add_icon_{{ counter }}"
+                class="btn common-btn">Buy NOW</a>
+            </div>
+            <div class="ass-img">
+              <img src="{{ product.featured_image | img_url: 'master' }}" alt="">
+              <ul class="hcv-list">
+                <li>
+                  <a
+                    href="javascript:void(0)"
+                    id="add_icon1_{{ counter }}"
+                    class="add-cart">
+                    <i class="fa-solid fa-cart-arrow-down"></i>
+                  </a>
+                </li>
+                <li>
+                  <a href="javascript:void(0)" class="add-cart">
+                    <i class="fa-regular fa-heart"></i>
+                  </a>
+                </li>
+                <li>
+                  <a href="{{ product.url }}?view=custom" class="add-cart">
+                    <i class="fa-solid fa-arrow-right-arrow-left"></i>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- FEATURED CATEGORIES -->
+<section class="common-section">
+  <div class="container">
+    <div class="tn-head">
+      <h3>FEATURED CATEGORIES</h3>
+    </div>
+    <div class="common-tlist-slider owl-carousel">
+
+      {% for product in collections.all.products %}
+        {% if product.metafields.custom.featured == true %}
+          <div class="item">
+            <a href="{{ product.url }}?view=custom" class="product-card">
+              <div class="product-badge">
+                <span>20% off</span>
+              </div>
+              <div class="product-img">
+                <img src="{{ product.featured_image | img_url: 'master' }}" alt="">
+              </div>
+              <div class="product-text">
+                <div class="review-text-box">
+                  <div class="review-star">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star-half-stroke"></i>
+                    <i class="fa-regular fa-star"></i>
+                  </div>
+                </div>
+                <h4>{{ product.title }}</h4>
+                <div class="product-list-price">
+                  {% assign discounted_price = product.price | times: 0.8 %}
+                  <span class="sell-price">{{ discounted_price | money }}</span>
+                  <del class="fixed-price">{{ product.price | money }}</del>
+                </div>
+              </div>
+            </a>
+          </div>
+        {% endif %}
+      {% endfor %}
+
+    </div>
+  </div>
+</section>
+
+<!-- Your Favorites Section -->
+<section class="common-section">
+  <div class="container">
+    <a href="{{ settings.yf_link }}" class="yfs-img">
+      <img src="{{ settings.yf_banner | img_url: 'master' }}" alt="">
+    </a>
+  </div>
+</section>
+{% comment %} 
+  </main> 
+{% endcomment %}
+
+{% schema %}
+  {
+    "name": "Home Settings",
+    "blocks": [
+      {
+        "type": "text",
+        "name": "Banners",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "banner_image",
+            "label": "Banner Image"
+          }, {
+            "type": "text",
+            "id": "heading",
+            "default": "Heading Details",
+            "label": "Heading Details"
+          }, {
+            "type": "text",
+            "id": "subtext",
+            "default": "Subtext Details",
+            "label": "Subtext Details"
+          }, {
+            "type": "text",
+            "id": "button_link",
+            "default": "/collections/",
+            "label": "eg: /collections/"
+          }
+        ]
+      }
+    ]
+    
+  }
+{% endschema %}

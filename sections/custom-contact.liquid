@@ -1,0 +1,168 @@
+<!-- banner section -->
+<section class="inner-banner-section">
+  <div class="item" style="background: url({{ section.settings.contact_banner | img_url: 'master' }}) no-repeat center center/cover;">
+    <div class="container">
+      <div class="inner-banner-content">
+        <h1>{{ page.title }}</h1>
+      </div>
+    </div>
+  </div>
+</section>
+
+<main>
+
+  <!-- Contact Us Sectoion -->
+  <section class="common-section contact-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 col-md-12 col-sm-12">
+          <div class="iframe-box">
+            {{ section.settings.map }}
+          </div>
+        </div>
+        <div class="col-lg-5 col-md-12 col-sm-12 col-12">
+          <div class="form-text">
+            <h2>Get In Touch</h2>
+            <div class="form-text-para my-3">
+              <p>{{ section.settings.text }}</p>
+            </div>
+          </div>
+          {% comment %} <form action="">
+                        <div class="row">
+                          <div class="col-md-6 col-sm-12">
+                            <div class="form-contact-box">
+                              <input
+                                type="text"
+                                placeholder="Enter your first name"
+                                class="form-control form-input">
+                            </div>
+                          </div>
+                          <div class="col-md-6 col-sm-12">
+                            <div class="form-contact-box">
+                              <input
+                                type="text"
+                                placeholder="Enter your last name"
+                                class="form-control form-input">
+                            </div>
+                          </div>
+                          <div class="col-md-12 col-sm-12">
+                            <div class="form-contact-box">
+                              <input
+                                type="email"
+                                placeholder="Enter your email"
+                                class="form-control form-input">
+                            </div>
+                          </div>
+                          <div class="col-md-12 col-12">
+                            <div class="form-contact-box">
+                              <textarea
+                                name=""
+                                id=""
+                                rows="7"
+                                placeholder="Message"
+                                class="form-control form-input"></textarea>
+                            </div>
+                          </div>
+                          <div class="contact-btn">
+                            <button class="btn common-btn" type="button">Submit</button>
+                          </div>
+                        </div>
+                    </form> {% endcomment %}
+
+          {% form 'contact' %}
+            {% if form.posted_successfully? %}
+              <div class="form-group">
+                <p class="btn-gradient">{{ 'templates.contact.form.post_success' | t }}</p>
+              </div>
+            {% endif %}
+            <div class="row">
+              <div class="col-md-6 col-sm-12">
+                <div class="form-contact-box">
+                  <input
+                    type="text"
+                    id="name"
+                    name="contact[name]"
+                    class="form-control form-input"
+                    placeholder="Name"
+                    pattern="[A-Za-z ]*"
+                    required>
+                  <span class="error2">Please enter a valid name.</span>
+                </div>
+              </div>
+              <div class="col-md-6 col-sm-12">
+                <div class="form-contact-box">
+                  <input
+                    type="email"
+                    id="email"
+                    name="contact[email]"
+                    class="form-control form-input"
+                    placeholder="Email"
+                    required>
+                  <span class="error1">Please enter a valid email id.</span>
+                </div>
+              </div>
+              <div class="col-md-6 col-sm-12">
+                <div class="form-contact-box">
+                  <input
+                    type="tel"
+                    class="form-control form-input"
+                    id="phone"
+                    name="contact[phone]"
+                    pattern="[0-9]{10}"
+                    placeholder="Phone"
+                    required>
+                  <span class="error">Please enter a valid 10-digit phone number.</span>
+                </div>
+              </div>
+              <div class="col-md-12 col-12">
+                <div class="form-contact-box">
+                  <textarea
+                    class="form-control form-input"
+                    rows="5"
+                    id="comment"
+                    name="contact[message]"
+                    placeholder="Message"></textarea>
+                </div>
+              </div>
+              <div class="contact-btn ne-product-btn2">
+                  {% comment %} <button class="btn btn-gradient" type="button">Submit</button> {% endcomment %}
+                <input
+                  class="common-btn btn btn-gradient"
+                  type="submit"
+                  name=""
+                  value="Submit">
+              </div>
+            </div>
+          {% endform %}
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+
+{% schema %}
+  {
+    "name": "Contact Setting",
+    "settings": [
+      {
+        "type": "image_picker",
+        "label": "Banner Image",
+        "id": "contact_banner"
+      },
+      {
+        "type": "textarea",
+        "label": "Map Section",
+        "id": "map"
+      },
+      {
+        "type": "text",
+        "label": "Subtext",
+        "id": "text"
+      }
+    ]
+  }
+{% endschema %}

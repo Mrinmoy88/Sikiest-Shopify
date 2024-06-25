@@ -1,0 +1,194 @@
+{% assign product = product %}
+
+<!-- banner section -->
+<section class="inner-banner-section">
+  <div class="item" style="background: url({{ 'banner-bg.png' | asset_url }}) no-repeat center center/cover;">
+    <div class="container">
+      <div class="inner-banner-content">
+        <h1>Product Details</h1>
+      </div>
+    </div>
+  </div>
+</section>
+
+<main>
+
+  <!-- Product Details -->
+  <section class="common-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-12 col-12">
+          <div class="row">
+            <div class="col-lg-5 col-md-12 col-12">
+              <div class="product-dtl-img">
+                <ul class="gc-start glasscase-slider">
+                  {% for image in product.media %}
+                    <li>
+                      <img
+                        src="{{ image | img_url: 'master' }}"
+                        alt="{{ product.title }} Image"
+                        class="img-fluid">
+                    </li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+            <div class="col-lg-7 col-md-12 col-12">
+              <div class="products-dtl-box">
+                <div class="product-dtl-text">
+                  <h2 class="product-dtl-title">{{ product.title }}</h2>
+                  <div class="product-list-price">
+                    <span class="sell-price" id="price">{{ product.variants.first.price | money }}</span>
+                    <del class="fixed-price">{{ product.compare_at_price | money }}</del>
+                  </div>
+                </div>
+                <div class="review-text-box">
+                  <div class="review-star">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star-half-stroke"></i>
+                    <i class="fa-regular fa-star"></i>
+                  </div>
+                </div>
+                <div class="product-para">
+                  <p>{{ product.description | truncatewords: 20 }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-12 col-12">
+
+          <form
+            action="/cart/add"
+            method="post"
+            class="pd-right"
+            enctype="multipart/form-data">
+
+
+            <div class="pd-label">
+              <p>Availability:</p>
+              <span id="pcs">{{ product.variants.first.inventory_quantity }}</span>
+              <span>In Stock</span>
+            </div>
+            {% if product.variants.size > 1 %}
+              <div
+                class="pd-option-head"
+                id="field1"
+                style="margin-bottom: 10px;">
+                <h3>Choose Option</h3>
+                <select
+                  id="variant-select"
+                  name="id"
+                  class="form-control">
+                  {% for variant in product.variants %}
+                    <option
+                      value="{{ variant.id }}"
+                      id="p-id"
+                      data-inventory="{{ variant.inventory_quantity }}"
+                      data-price="{{ variant.price | money }}">{{ variant.title }} - {{ variant.price | money }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+
+            {% else %}
+              <input
+                type="hidden"
+                name="id"
+                id="p-id"
+                value="{{ product.variants.first.id }}">
+            {% endif %}
+
+            <div class="pd-option-head">
+              <h3>Quantity</h3>
+              <input
+                type="number"
+                class="form-control"
+                id="quantity"
+                placeholder="Enter your quantity"
+                name="quantity"
+                required
+                min="1">
+            </div>
+            <div class="product-dtl-btn">
+              <button class="btn common-btn" id="buy-now-btn">Buy Now</button>
+              <button class="btn common-btn">
+                <i class="fa-solid fa-cart-shopping"></i>
+                Add to Cart
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Related Product -->
+  <section class="common-section">
+    <div class="container">
+      <div class="rp-head">
+        <h3>Related Products</h3>
+      </div>
+      <div class="row">
+        <div class="common-tlist-slider owl-carousel">
+
+          {% assign current_collection = product.collections.first %}
+          {% if current_collection.products.size > 0 %}
+            {% for product_in_collection in collections[current_collection.handle].products %}
+
+              {% if product_in_collection.id != product.id %}
+                <div class="item">
+                  <a href="{{ product_in_collection.url}}?view=custom" class="product-card">
+                    <div class="product-badge">
+                      <span>20% off</span>
+                    </div>
+                    <div class="product-img">
+                      <img src="{{ product_in_collection.featured_image | img_url: 'master' }}" alt="">
+                    </div>
+                    <div class="product-text">
+                      <div class="review-text-box">
+                        <div class="review-star">
+                          <i class="fa-solid fa-star"></i>
+                          <i class="fa-solid fa-star"></i>
+                          <i class="fa-solid fa-star"></i>
+                          <i class="fa-solid fa-star-half-stroke"></i>
+                          <i class="fa-regular fa-star"></i>
+                        </div>
+                      </div>
+                      <h4>{{ product_in_collection.title }}</h4>
+                      <div class="product-list-price">
+                        <span class="sell-price">{{ product_in_collection.price | money }}</span>
+                        {% if product_in_collection.compare_at_price != '' %}
+                          <del class="fixed-price">{{ product_in_collection.compare_at_price | money }}</del>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              {% endif %}
+
+            {% endfor %}
+          {% else %}
+            No Related Products Founs!
+          {% endif %}
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+{% schema %}
+  {
+    "name": "Product Details Setting",
+    "settings": [
+      {
+        "type": "image_picker",
+        "label": "Banner Image",
+        "id": "banner"
+      }
+    ]
+  }
+{% endschema %}

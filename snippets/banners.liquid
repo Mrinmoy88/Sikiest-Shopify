@@ -1,0 +1,17 @@
+<!-- banner section -->
+<section class="banner-section">
+  <div class="banner-slider owl-carousel">
+    {% for block in section.blocks %}
+      <div class="item" style="background: url({{ block.settings.banner_image | img_url: 'master' }}) no-repeat center center/cover;">
+        <div class="container">
+          <div class="banner-content">
+            <h1>{{ block.settings.heading }}</h1>
+            <span>{{ block.settings.subtext }}</span>
+            <a href="{{ block.settings.button_link }}" class="btn common-btn">Shop Now</a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+

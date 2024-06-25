@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>{{ shop.name }}</title>
+      <link rel="shortcut icon" href="{{ settings.favicon | img_url: 'master' }}" type="image/x-icon">
+  
+      <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+      />
+  
+      {% comment %} <link rel="stylesheet" href="css/bootstrap.5.2.3.min.css" />
+      <link rel="stylesheet" href="css/owl.carousel.2.3.4.css" />  
+      <link rel="stylesheet" href="css/glass-case.css" />  
+      <link rel="stylesheet" href="css/style.css" /> {% endcomment %}
+
+      <link rel="stylesheet" href="{{ 'bootstrap.5.2.3.min.css' | asset_url }}">
+      <link rel="stylesheet" href="{{ 'owl.carousel.2.3.4.css' | asset_url }}">
+      <link rel="stylesheet" href="{{ 'glass-case.css' | asset_url }}">
+      <link rel="stylesheet" href="{{ 'style.css' | asset_url }}">
+  
+  </head>
+  <body>
+  
+      <!-- header section -->
+    <header>
+      <nav class="navbar navbar-expand-lg">
+        <div class="container">
+          <a class="navbar-brand" href="/">
+            {% comment %} <img src="images/logo.png" alt="" class="img-fluid"> {% endcomment %}
+            <img src="{{ settings.logo | img_url: 'master' }}" alt="{{ shop.name }}" class="img-fluid">           
+          </a>
+          <div class="collapse navbar-collapse nav-menu" id="navbarScroll">
+            <ul class="navbar-nav navbar-nav-scroll m-auto gap-3">
+              
+              {% for link in linklists['main-menu'].links %}
+                <li class="nav-item">
+                  <a class="nav-link {% if link.url == request.path %}active{% endif %}" href="{{ link.url }}">{{ link.title }} </a>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+          <div class="head-brand-menu d-flex align-items-center gap-3">
+                      <ul class="nav-icons">
+                          <li>
+                            <form class="email-input" action="/search" method="get" role="search">                              
+                              <input class="form-input" type="text" name="q" id="search" placeholder="Search" required>                              
+                              <button class="btn email-img search-btn" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                            </form>                         
+                          </li>
+                          <li>
+                            {% comment %} <a href="javscript.void(0)" class="nav-icon-cart">
+                              <span>8</span>
+                              <i class="fa-solid fa-cart-shopping"></i>
+                            </a> {% endcomment %}
+                            <a href="{{ routes.cart_url }}" class="header__icon--cart link focus-inset nav-icon-cart" id="cart-icon-bubble">
+                              <i class="fa-solid fa-cart-shopping"></i>
+                              {% comment %} <span class="visually-hidden">{{ 'templates.cart.cart' | t }}</span> {% endcomment %}
+                              {%- if cart != empty -%}                                
+                                  {%- if cart.item_count < 100 -%}
+                                    <span aria-hidden="true">{{ cart.item_count }}</span>
+                                  {%- endif -%}
+                                  <span class="visually-hidden">{{ 'sections.header.cart_count' | t: count: cart.item_count }}</span>                              
+                              {%- endif -%}
+                            </a>
+                          </li>
+                          <li>
+                            {% comment %} <a href="javscript.void(0)" class="nav-icon-cart">
+                              <i class="fa-regular fa-user"></i>
+                            </a> {% endcomment %}
+                            <a href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}" class="nav-icon-cart header__icon--account link focus-inset{% if section.settings.menu != blank %} small-hide{% endif %}">
+                              <i class="fa-regular fa-user"></i>
+                              <span class="visually-hidden">
+                                {%- liquid
+                                  if customer
+                                    echo 'customer.account_fallback' | t
+                                  else
+                                    echo 'customer.log_in' | t
+                                  endif
+                                -%}
+                              </span>
+                            </a>
+                          </li>
+                         
+                      </ul>
+                      <button class="navbar-toggler ms-sm-3 ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+                          <span class="navbar-toggler-icon"></span>
+                      </button>
+                  </div>
+        </div>
+      </nav>
+    </header>
